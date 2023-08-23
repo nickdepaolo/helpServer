@@ -7,6 +7,7 @@ router.post('/register', async (req, res) => {
     let { clientName, issue, room } = req.body.help;
 
     try{
+
         const HelpRequest = await HelpRequestModel.create({
         clientName,
         issue,
@@ -19,9 +20,11 @@ router.post('/register', async (req, res) => {
         });
 
     } catch (err) {
+
         res.status(500).json({
             message: `Error in system, at help request controller. ${err}`
         });
+        
     }
     
     

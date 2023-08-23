@@ -1,6 +1,7 @@
+require("dotenv").config();
 const Express = require('express');
-const dbConnection = require('./db')
 const app = Express();
+const dbConnection = require('./db')
 const controllers = require('./controllers');
 
 app.use(Express.json());

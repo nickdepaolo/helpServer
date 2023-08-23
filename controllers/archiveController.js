@@ -7,6 +7,7 @@ router.post('/register', async (req, res) => {
     let { clientName, issue, room } = req.body.help;
 
     try{
+
         const ArchiveRequest = await ArchiveModel.create({
         clientName,
         issue,
@@ -19,10 +20,13 @@ router.post('/register', async (req, res) => {
         });
 
     } catch (err) {
+
         res.status(500).json({
             message: `Error in system, at archive controller. ${err}`
         });
+
     }
+    
 })
 
 
