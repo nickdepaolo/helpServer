@@ -1,7 +1,9 @@
 const Express = require('express');
 const { HelpRequestModel } = require('../models');
 const router = Express.Router();
+let validateJWT = require('../middleware/validate-JWT')
 
+// Post help request from client
 router.post('/register', async (req, res) => {
 
     let { clientName, issue, room } = req.body.help;
@@ -24,11 +26,46 @@ router.post('/register', async (req, res) => {
         res.status(500).json({
             message: `Error in system, at help request controller. ${err}`
         });
-        
+
     }
     
     
 });
 
+// Get all request entries
+router.get('/', async(req,res) => {
+    try {
+
+        const entries = await HelpRequestModel.findAll();
+        res.status(200).json(entries);
+
+    } catch (err) {
+
+        res.status(500).json({error: err});
+
+    }
+});
+
+// Delete help request
+router.delete('/delete/', validateJWT, async(req, res) => {
+    const helpId = req.body.id;
+
+    try {
+
+        const query = {
+            where: {
+                id: helpId
+            }
+        };
+
+        await HelpRequestModel.destroy(query);
+        res.status(200).json({message: 'Help request removed and sent to the achive'})
+
+    } catch {
+
+        res.status(500).json({error: err})
+
+    }
+})
 
 module.exports = router
