@@ -47,25 +47,25 @@ router.get('/', async(req,res) => {
 });
 
 // Delete help request
-router.delete('/delete/', validateJWT, async(req, res) => {
-    const helpId = req.body.id;
+router.delete("/delete/:id", async(req, res) => {
+    const helpId = req.params.id;
 
     try {
-
+        console.log(req.params.id)
         const query = {
             where: {
-                id: helpId
-            }
+                id: helpId,
+            },
         };
 
         await HelpRequestModel.destroy(query);
         res.status(200).json({message: 'Help request removed and sent to the achive'})
 
-    } catch {
+    } catch (error){
 
-        res.status(500).json({error: err})
+        res.status(500).json({error: error})
 
     }
-})
+});
 
 module.exports = router
